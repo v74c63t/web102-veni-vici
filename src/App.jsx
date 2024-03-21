@@ -10,10 +10,10 @@ function App() {
   const [cat, setCat] = useState(null)
   const [seen, setSeen] = useState([])
   const [banList, setBanList] = useState({
-                                          "name": [],
-                                          "weight": [],
-                                          "life": [],
-                                          "origin": []
+                                          "names": [],
+                                          "weights": [],
+                                          "lifespans": [],
+                                          "origins": []
                                         })
 
   const getRandomImage = () => {
@@ -36,8 +36,8 @@ function App() {
     // do checking with ban list if conflict redo requests
     const catData = {"url": data.url, 
                 "name": data.breeds[0].name, 
-                "weight": data.breeds[0].weight.imperial,
-                "lifespan": data.breeds[0].life_span,
+                "weight": `${data.breeds[0].weight.imperial} lbs`,
+                "lifespan": `${data.breeds[0].life_span} years`,
                 "origin": data.breeds[0].origin}
     setCat(catData)
     const seenData = {"url": catData.url,
@@ -49,45 +49,45 @@ function App() {
   }
 
   const addToNameBanList = () => {
-    if(!banList.name.includes(cat.name)) {
+    if(!banList.names.includes(cat.name)) {
       setBanList({
-        "name": [...banList.name, cat.name],
-        "weight": banList.weight,
-        "life": banList.life,
-        "origin": banList.origin
+        "names": [...banList.names, cat.name],
+        "weights": banList.weights,
+        "lifespans": banList.lifespans,
+        "origins": banList.origins
       }) 
     }            
   }
 
   const addToWeightBanList = () => {
-    if(!banList.weight.includes(cat.weight)) {
+    if(!banList.weights.includes(cat.weight)) {
       setBanList({
-        "name": banList.name,
-        "weight": [...banList.weight, cat.weight],
-        "life": banList.life,
-        "origin": banList.origin
+        "names": banList.names,
+        "weights": [...banList.weights, cat.weight],
+        "lifespans": banList.lifespans,
+        "origins": banList.origins
       })
     }
   }
 
   const addToLifeBanList = () => {
-    if(!banList.life.includes(cat.lifespan)) {
+    if(!banList.lifespans.includes(cat.lifespan)) {
       setBanList({
-        "name": banList.name,
-        "weight": banList.weight,
-        "life": [...banList.life, cat.lifespan],
-        "origin": banList.origin
+        "names": banList.names,
+        "weights": banList.weights,
+        "lifespans": [...banList.lifespans, cat.lifespan],
+        "origins": banList.origins
       })
     }
   }
 
   const addToOriginBanList = () => {
-    if(!banList.origin.includes(cat.origin)) {
+    if(!banList.origins.includes(cat.origin)) {
       setBanList({
-        "name": banList.name,
-        "weight": banList.weight,
-        "life": banList.life,
-        "origin": [...banList.origin, cat.origin]
+        "names": banList.names,
+        "weights": banList.weights,
+        "lifespans": banList.lifespans,
+        "origins": [...banList.origins, cat.origin]
       })
     }
   }
@@ -108,19 +108,51 @@ function App() {
         ): ""}
       </div>
       <div>
+        <h3>Cat</h3>
         {cat ? (
           <div>
             <img src={cat.url} alt='cat image' className='image'/>
             <div className="tags">
               <Tag onClick={addToNameBanList}>{cat.name}</Tag>
-              <Tag onClick={addToWeightBanList}>{cat.weight} lbs</Tag>
-              <Tag onClick={addToLifeBanList}>{cat.lifespan} years</Tag>
+              <Tag onClick={addToWeightBanList}>{cat.weight}</Tag>
+              <Tag onClick={addToLifeBanList}>{cat.lifespan}</Tag>
               <Tag onClick={addToOriginBanList}>{cat.origin}</Tag>
             </div>
           </div>
         ):
         ""}
         <button onClick={getRandomImage}>Discover</button>
+      </div>
+      <div className='ban-list'>
+        <h3>Ban List</h3>
+        {banList.names.length !== 0 ? (
+            banList.names.map((name, key) => {
+              return (
+                <Tag key={key}>{name}</Tag>
+              )
+            })
+          ): ""}
+          {banList.weights.length !== 0 ? (
+            banList.weights.map((weight, key) => {
+              return (
+                <Tag key={key}>{weight}</Tag>
+              )
+            })
+          ): ""}
+          {banList.lifespans.length !== 0 ? (
+            banList.lifespans.map((lifespan, key) => {
+              return (
+                <Tag key={key}>{lifespan}</Tag>
+              )
+            })
+          ): ""}
+          {banList.origins.length !== 0 ? (
+            banList.origins.map((origin, key) => {
+              return (
+                <Tag key={key}>{origin}</Tag>
+              )
+            })
+          ): ""}
       </div>
     </div>
   )
