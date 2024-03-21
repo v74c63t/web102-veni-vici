@@ -1,19 +1,20 @@
 import { useState } from 'react'
 import './App.css'
 import axios from 'axios'
-const API_KEY = import.meta.env.API_KEY
+const API_KEY = import.meta.env.VITE_API_KEY
 const API_URL = import.meta.env.VITE_API_URL
 
 function App() {
 
-  const [cat, setCat] = useState({})
+  const [cat, setCat] = useState(null)
+  const [seen, setSeen] = useState([])
 
   const getRandomImage = () => {
-    axios.get(`${API_URL}/search?has_breeds=1&api_key=${API_KEY}`)
+    axios.get(`${API_URL}&api_key=${API_KEY}`)
       .then((res) => {
         if(res.status == 200) {
-          // console.log(res.data[0].id)
-          return getImageById(res.data[0].id)
+          console.log(res.data[0])
+          return checkImage(res.data[0])
         }
         else{
           console.error("Something went wrong.", res.statusText)
@@ -21,21 +22,9 @@ function App() {
       })
   }
 
-  const getImageById = (id) => {
-    // console.log(id)
-    axios.get(`${API_URL}/${id}?api_key=${API_KEY}`)
-      .then((res) => {
-        if(res.status == 200) {
-          return checkImage(res.data)
-        }
-        else{
-          console.error("Something went wrong.", res.statusText)
-        }
-      })
-  }
 
   const checkImage = (data) =>{ 
-    console.log(data)
+    // console.log(data)
     // console.log(data.breeds[0])
     // console.log(data.breeds[0].country_code)
     // do checking with ban list if conflict redo requests
@@ -45,24 +34,43 @@ function App() {
                 "lifespan": data.breeds[0].life_span,
                 "origin": data.breeds[0].origin}
     setCat(catData)
-    console.log(cat)
+    const seenData = {"url": catData.url,
+                      "desc": `A ${catData.name} cat from ${catData.origin}`}
+    // console.log(`A ${catData.name.toLowerCase()} cat from ${catData.origin}`)
+    setSeen([...seen, seenData])
+    // console.log(seen)
     // return
   }
 
   return (
-    <>
-      {cat ? (
-        <div>
-          <img src={cat.url} alt='cat image' className='image'/>
-          <div>{cat.name}</div>
-          <div>{cat.weight} lbs</div>
-          <div>{cat.lifespan} years</div>
-          <div>{cat.origin}</div>
-        </div>
-      ): 
-      ""}
-      <button onClick={getRandomImage}>Discover</button>
-    </>
+    <div>
+      <div className='seen-list'>
+        <h3>Seen</h3>
+        {seen.length !== 0 ? (
+          seen.map((seenCat) => {
+            return (
+            <div>
+              <img src={seenCat.url} alt='cat image' className='seen'/>
+              <div>{seenCat.desc}</div>
+            </div>
+            )
+          })
+        ): ""}
+      </div>
+      <div>
+        {cat ? (
+          <div>
+            <img src={cat.url} alt='cat image' className='image'/>
+            <div>{cat.name}</div>
+            <div>{cat.weight} lbs</div>
+            <div>{cat.lifespan} years</div>
+            <div>{cat.origin}</div>
+          </div>
+        ):
+        ""}
+        <button onClick={getRandomImage}>Discover</button>
+      </div>
+    </div>
   )
 }
 
