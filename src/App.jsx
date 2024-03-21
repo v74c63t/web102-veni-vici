@@ -6,13 +6,13 @@ const API_URL = import.meta.env.VITE_API_URL
 
 function App() {
 
-  const [imageUrl, setImageUrl] = useState('')
+  const [cat, setCat] = useState({})
 
   const getRandomImage = () => {
-    axios.get(`${API_URL}/search?api_key=${API_KEY}`)
+    axios.get(`${API_URL}/search?has_breeds=1&api_key=${API_KEY}`)
       .then((res) => {
         if(res.status == 200) {
-          console.log(res.data[0].id)
+          // console.log(res.data[0].id)
           return getImageById(res.data[0].id)
         }
         else{
@@ -22,7 +22,7 @@ function App() {
   }
 
   const getImageById = (id) => {
-    console.log(id)
+    // console.log(id)
     axios.get(`${API_URL}/${id}?api_key=${API_KEY}`)
       .then((res) => {
         if(res.status == 200) {
@@ -36,14 +36,32 @@ function App() {
 
   const checkImage = (data) =>{ 
     console.log(data)
+    // console.log(data.breeds[0])
+    // console.log(data.breeds[0].country_code)
     // do checking with ban list if conflict redo requests
-    setImageUrl(data.url)
+    const catData = {"url": data.url, 
+                "name": data.breeds[0].name, 
+                "weight": data.breeds[0].weight.imperial,
+                "lifespan": data.breeds[0].life_span,
+                "origin": data.breeds[0].origin}
+    setCat(catData)
+    console.log(cat)
     // return
   }
 
   return (
     <>
-    <button onClick={getRandomImage}></button>
+      {cat ? (
+        <div>
+          <img src={cat.url} alt='cat image' className='image'/>
+          <div>{cat.name}</div>
+          <div>{cat.weight} lbs</div>
+          <div>{cat.lifespan} years</div>
+          <div>{cat.origin}</div>
+        </div>
+      ): 
+      ""}
+      <button onClick={getRandomImage}>Discover</button>
     </>
   )
 }
