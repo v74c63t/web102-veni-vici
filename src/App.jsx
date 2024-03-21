@@ -34,18 +34,36 @@ function App() {
     // console.log(data.breeds[0])
     // console.log(data.breeds[0].country_code)
     // do checking with ban list if conflict redo requests
-    const catData = {"url": data.url, 
+    if(banList.names.includes(data.breeds[0].name)){
+      console.log(data.breeds[0].name, 'in ban list so reroll')
+      getRandomImage()
+    }
+    else if(banList.weights.includes(`${data.breeds[0].weight.imperial} lbs`)) {
+      console.log(`${data.breeds[0].weight.imperial} lbs`, 'in ban list so reroll')
+      getRandomImage()
+    }
+    else if(banList.lifespans.includes(`${data.breeds[0].life_span} years`)) {
+      console.log(`${data.breeds[0].life_span} years`, 'in ban list so reroll')
+      getRandomImage()
+    }
+    else if(banList.origins.includes(data.breeds[0].origin)) {
+      console.log(data.breeds[0].origin, 'in ban list so reroll')
+      getRandomImage()
+    }
+    else {
+      const catData = {"url": data.url, 
                 "name": data.breeds[0].name, 
                 "weight": `${data.breeds[0].weight.imperial} lbs`,
                 "lifespan": `${data.breeds[0].life_span} years`,
                 "origin": data.breeds[0].origin}
-    setCat(catData)
-    const seenData = {"url": catData.url,
-                      "desc": `A ${catData.name} cat from ${catData.origin}`}
-    // console.log(`A ${catData.name.toLowerCase()} cat from ${catData.origin}`)
-    setSeen([...seen, seenData])
-    // console.log(seen)
-    // return
+      setCat(catData)
+      const seenData = {"url": catData.url,
+                        "desc": `A ${catData.name} cat from ${catData.origin}`}
+      // console.log(`A ${catData.name.toLowerCase()} cat from ${catData.origin}`)
+      setSeen([...seen, seenData])
+      // console.log(seen)
+      // return
+    }
   }
 
   const addToNameBanList = () => {
