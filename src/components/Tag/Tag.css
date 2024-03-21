@@ -1,0 +1,11 @@
+.tag {
+  background-color: beige;
+  border-radius: 0.3rem;
+  color: black;
+  margin: 0.4rem;
+  padding: 0.4rem;
+}
+
+.tag:hover {
+  background-color: rgb(186, 186, 164);
+}
