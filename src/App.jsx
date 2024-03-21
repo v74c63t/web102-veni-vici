@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import axios from 'axios'
+import Tag from './components/Tag/Tag'
 const API_KEY = import.meta.env.VITE_API_KEY
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -8,12 +9,17 @@ function App() {
 
   const [cat, setCat] = useState(null)
   const [seen, setSeen] = useState([])
+  const [banList, setBanList] = useState({
+                                          "name": [],
+                                          "weight": [],
+                                          "life": [],
+                                          "origin": []
+                                        })
 
   const getRandomImage = () => {
     axios.get(`${API_URL}&api_key=${API_KEY}`)
       .then((res) => {
         if(res.status == 200) {
-          console.log(res.data[0])
           return checkImage(res.data[0])
         }
         else{
@@ -42,14 +48,58 @@ function App() {
     // return
   }
 
+  const addToNameBanList = () => {
+    if(!banList.name.includes(cat.name)) {
+      setBanList({
+        "name": [...banList.name, cat.name],
+        "weight": banList.weight,
+        "life": banList.life,
+        "origin": banList.origin
+      }) 
+    }            
+  }
+
+  const addToWeightBanList = () => {
+    if(!banList.weight.includes(cat.weight)) {
+      setBanList({
+        "name": banList.name,
+        "weight": [...banList.weight, cat.weight],
+        "life": banList.life,
+        "origin": banList.origin
+      })
+    }
+  }
+
+  const addToLifeBanList = () => {
+    if(!banList.life.includes(cat.lifespan)) {
+      setBanList({
+        "name": banList.name,
+        "weight": banList.weight,
+        "life": [...banList.life, cat.lifespan],
+        "origin": banList.origin
+      })
+    }
+  }
+
+  const addToOriginBanList = () => {
+    if(!banList.origin.includes(cat.origin)) {
+      setBanList({
+        "name": banList.name,
+        "weight": banList.weight,
+        "life": banList.life,
+        "origin": [...banList.origin, cat.origin]
+      })
+    }
+  }
+
   return (
     <div>
       <div className='seen-list'>
         <h3>Seen</h3>
         {seen.length !== 0 ? (
-          seen.map((seenCat) => {
+          seen.map((seenCat, key) => {
             return (
-            <div>
+            <div key={key}>
               <img src={seenCat.url} alt='cat image' className='seen'/>
               <div>{seenCat.desc}</div>
             </div>
@@ -61,10 +111,12 @@ function App() {
         {cat ? (
           <div>
             <img src={cat.url} alt='cat image' className='image'/>
-            <div>{cat.name}</div>
-            <div>{cat.weight} lbs</div>
-            <div>{cat.lifespan} years</div>
-            <div>{cat.origin}</div>
+            <div className="tags">
+              <Tag onClick={addToNameBanList}>{cat.name}</Tag>
+              <Tag onClick={addToWeightBanList}>{cat.weight} lbs</Tag>
+              <Tag onClick={addToLifeBanList}>{cat.lifespan} years</Tag>
+              <Tag onClick={addToOriginBanList}>{cat.origin}</Tag>
+            </div>
           </div>
         ):
         ""}
