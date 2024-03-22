@@ -1,0 +1,39 @@
+
+.seen {
+  max-width: 7rem;
+  max-height: 7rem;
+}
+
+.seen-list {
+  position: absolute;
+  display: flex;
+  width: 15%;
+  height: 75%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: scroll;
+  margin-top: 2rem;
+  padding:1rem;
+  margin-left: 1rem;
+  background-color: rgb(0, 0, 53);
+  border-radius: 0.3rem;
+}
+
+.ban-list {
+  position: absolute;
+  display: flex;
+  width: 15%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: scroll;
+  padding:1rem;
+  background-color: rgb(0, 0, 53);
+}

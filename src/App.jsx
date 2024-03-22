@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import axios from 'axios'
 import Tag from './components/Tag/Tag'
+import List from './components/List/List'
 const API_KEY = import.meta.env.VITE_API_KEY
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -25,9 +26,6 @@ function App() {
 
 
   const checkImage = (data) =>{ 
-    // console.log(data)
-    // console.log(data.breeds[0])
-    // console.log(data.breeds[0].country_code)
     // do checking with ban list if conflict redo requests
     if(banList.includes(data.breeds[0].name)){
       console.log(data.breeds[0].name, 'in ban list so reroll')
@@ -54,10 +52,7 @@ function App() {
       setCat(catData)
       const seenData = {"url": catData.url,
                         "desc": `A ${catData.name} cat from ${catData.origin}`}
-      // console.log(`A ${catData.name.toLowerCase()} cat from ${catData.origin}`)
       setSeen([...seen, seenData])
-      // console.log(seen)
-      // return
     }
   }
 
@@ -75,19 +70,7 @@ function App() {
 
   return (
     <div>
-      <div className='seen-list'>
-        <h2>Seen</h2>
-        {seen.length !== 0 ? (
-          seen.map((seenCat, key) => {
-            return (
-            <div key={key}>
-              <img src={seenCat.url} alt='cat image' className='seen'/>
-              <div>{seenCat.desc}</div>
-            </div>
-            )
-          })
-        ): ""}
-      </div>
+      <List className={'seen-list'} title={'Seen'} list={seen} />
       <div className='cat'>
         <h2>Cat</h2>
         {cat ? (
@@ -104,16 +87,7 @@ function App() {
         ""}
         <button onClick={getRandomImage}>Discover</button>
       </div>
-      <div className='ban-list'>
-        <h2>Ban List</h2>
-        {banList.length !== 0 ? (
-          banList.map((bannedVal, key) => {
-            return (
-              <Tag key={key} onClick={() => removeFromBanList(bannedVal)}>{bannedVal}</Tag>
-            )
-          })
-        ): ""}
-      </div>
+      <List className={'ban-list'} title={'Ban List'} list={banList} removeFromBanList={removeFromBanList} />
     </div>
   )
 }
