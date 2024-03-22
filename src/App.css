@@ -91,3 +91,15 @@
   padding:1rem;
   background-color: gray;
 }
+
+.cat {
+  height: 35rem;
+  width: 35rem;
+  background-color: gray;
+  border-radius: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}

@@ -162,7 +162,7 @@ function App() {
   return (
     <div>
       <div className='seen-list'>
-        <h3>Seen</h3>
+        <h2>Seen</h2>
         {seen.length !== 0 ? (
           seen.map((seenCat, key) => {
             return (
@@ -174,8 +174,8 @@ function App() {
           })
         ): ""}
       </div>
-      <div>
-        <h3>Cat</h3>
+      <div className='cat'>
+        <h2>Cat</h2>
         {cat ? (
           <div>
             <img src={cat.url} alt='cat image' className='image'/>
@@ -191,7 +191,7 @@ function App() {
         <button onClick={getRandomImage}>Discover</button>
       </div>
       <div className='ban-list'>
-        <h3>Ban List</h3>
+        <h2>Ban List</h2>
         {banList.names.length !== 0 ? (
             banList.names.map((name, key) => {
               return (
