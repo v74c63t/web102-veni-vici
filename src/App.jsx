@@ -35,26 +35,26 @@ function App() {
     // console.log(data.breeds[0].country_code)
     // do checking with ban list if conflict redo requests
     if(banList.names.includes(data.breeds[0].name)){
-      console.log(data.breeds[0].name, 'in ban list so reroll')
+      console.log(data.breeds[0].name, 'in name ban list so reroll')
       getRandomImage()
     }
-    else if(banList.weights.includes(`${data.breeds[0].weight.imperial} lbs`)) {
-      console.log(`${data.breeds[0].weight.imperial} lbs`, 'in ban list so reroll')
+    else if(banList.weights.includes(data.breeds[0].weight.imperial)) {
+      console.log(`${data.breeds[0].weight.imperial} lbs`, 'in weight ban list so reroll')
       getRandomImage()
     }
-    else if(banList.lifespans.includes(`${data.breeds[0].life_span} years`)) {
-      console.log(`${data.breeds[0].life_span} years`, 'in ban list so reroll')
+    else if(banList.lifespans.includes(data.breeds[0].life_span)) {
+      console.log(`${data.breeds[0].life_span} years`, 'in lifespan ban list so reroll')
       getRandomImage()
     }
     else if(banList.origins.includes(data.breeds[0].origin)) {
-      console.log(data.breeds[0].origin, 'in ban list so reroll')
+      console.log(data.breeds[0].origin, 'in origin ban list so reroll')
       getRandomImage()
     }
     else {
       const catData = {"url": data.url, 
                 "name": data.breeds[0].name, 
-                "weight": `${data.breeds[0].weight.imperial} lbs`,
-                "lifespan": `${data.breeds[0].life_span} years`,
+                "weight": data.breeds[0].weight.imperial,
+                "lifespan": data.breeds[0].life_span,
                 "origin": data.breeds[0].origin}
       setCat(catData)
       const seenData = {"url": catData.url,
@@ -110,6 +110,55 @@ function App() {
     }
   }
 
+  const removeFromNameBanList = (name) => {
+    const index = banList.names.indexOf(name)
+    console.log(banList.names.splice(index, 1))
+    if(index > -1) {
+      setBanList({
+        "names": banList.names.filter((_, i) => i !== index),
+        "weights": banList.weights,
+        "lifespans": banList.lifespans,
+        "origins": banList.origins
+      }) 
+    }            
+  }
+
+  const removeFromWeightBanList = (weight) => {
+    const index = banList.weights.indexOf(weight)
+    if(index > -1) {
+      setBanList({
+        "names": banList.names,
+        "weights": banList.weights.filter((_, i) => i !== index),
+        "lifespans": banList.lifespans,
+        "origins": banList.origins
+      })
+    }
+  }
+
+  const removeFromLifeBanList = (lifespan) => {
+    const index = banList.lifespans.indexOf(lifespan)
+    if(index > -1) {
+      setBanList({
+        "names": banList.names,
+        "weights": banList.weights,
+        "lifespans": banList.lifespans.filter((_, i) => i !== index),
+        "origins": banList.origins
+      })
+    }
+  }
+
+  const removeFromOriginBanList = (origin) => {
+    const index = banList.origins.indexOf(origin)
+    if(index > -1) {
+      setBanList({
+        "names": banList.names,
+        "weights": banList.weights,
+        "lifespans": banList.lifespans,
+        "origins": banList.origins.filter((_, i) => i !== index)
+      })
+    }
+  }
+
   return (
     <div>
       <div className='seen-list'>
@@ -132,8 +181,8 @@ function App() {
             <img src={cat.url} alt='cat image' className='image'/>
             <div className="tags">
               <Tag onClick={addToNameBanList}>{cat.name}</Tag>
-              <Tag onClick={addToWeightBanList}>{cat.weight}</Tag>
-              <Tag onClick={addToLifeBanList}>{cat.lifespan}</Tag>
+              <Tag onClick={addToWeightBanList}>{cat.weight} lbs</Tag>
+              <Tag onClick={addToLifeBanList}>{cat.lifespan} years</Tag>
               <Tag onClick={addToOriginBanList}>{cat.origin}</Tag>
             </div>
           </div>
@@ -146,28 +195,28 @@ function App() {
         {banList.names.length !== 0 ? (
             banList.names.map((name, key) => {
               return (
-                <Tag key={key}>{name}</Tag>
+                <Tag key={key} onClick={() => removeFromNameBanList(name)}>{name}</Tag>
               )
             })
           ): ""}
           {banList.weights.length !== 0 ? (
             banList.weights.map((weight, key) => {
               return (
-                <Tag key={key}>{weight}</Tag>
+                <Tag key={key} onClick={() => removeFromWeightBanList(weight)}>{weight} lbs</Tag>
               )
             })
           ): ""}
           {banList.lifespans.length !== 0 ? (
             banList.lifespans.map((lifespan, key) => {
               return (
-                <Tag key={key}>{lifespan}</Tag>
+                <Tag key={key} onClick={() => removeFromLifeBanList(lifespan)}>{lifespan} years</Tag>
               )
             })
           ): ""}
           {banList.origins.length !== 0 ? (
             banList.origins.map((origin, key) => {
               return (
-                <Tag key={key}>{origin}</Tag>
+                <Tag key={key} onClick={() => removeFromOriginBanList(origin)}>{origin}</Tag>
               )
             })
           ): ""}
