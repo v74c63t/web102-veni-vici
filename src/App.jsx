@@ -85,7 +85,7 @@ function App() {
           </div>
         ):
         ""}
-        <button onClick={getRandomImage}>Discover</button>
+        <button className='discover' onClick={getRandomImage}>Discover</button>
       </div>
       <List className={'ban-list'} title={'Ban List'} list={banList} removeFromBanList={removeFromBanList} />
     </div>
