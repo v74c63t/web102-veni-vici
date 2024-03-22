@@ -2,29 +2,29 @@
 
 Submitted by: **Vanessa Tang**
 
-This web app: **insert description**
+This web app: **fetches information for the [Cat API](https://thecatapi.com) and displays it to the user. Once the discover button is clicked on, it randomly fetches information on one cat and displays its picture and a couple of its attributes. Users can click one of its attributes to place said attribute in the ban list so future requests will not display any cats with said attribute. Users, however, can also remove any attributes from the ban list and cats with those attributes can be fetched and displayed on the page again. Multiple attributes can be placed in the ban list, which may in turn cause some delay between fetching information from the API because of the preprocessing required to make sure cats with certain attributes are not displayed to the user. Lastly, there is history section in which users can view what cats they have seen so far.**
 
-Time spent: **X** hours spent in total
+Time spent: **5** hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
--   [ ] **Clicking a button creates a new API fetch request and displays at least three attributes from the returned JSON data**
--   [ ] **Only one item/API call is viewable at a time**
--   [ ] **API calls appear random to the user**
--   [ ] **At least one image is displayed per API call**
--   [ ] **Clicking on a displayed value for one attribute adds it to a displayed ban list**
--   [ ] **Attributes on the ban list prevent further images/API results with that attribute from being displayed**
+-   [x] **Clicking a button creates a new API fetch request and displays at least three attributes from the returned JSON data**
+-   [x] **Only one item/API call is viewable at a time**
+-   [x] **API calls appear random to the user**
+-   [x] **At least one image is displayed per API call**
+-   [x] **Clicking on a displayed value for one attribute adds it to a displayed ban list**
+-   [x] **Attributes on the ban list prevent further images/API results with that attribute from being displayed**
 
 The following **optional** features are implemented:
 
--   [ ] Multiple types of attributes can be added to the ban list
--   [ ] Users can see a stored history of their previously viewed items from their session
+-   [x] Multiple types of attributes can be added to the ban list
+-   [x] Users can see a stored history of their previously viewed items from their session
 
 The following **additional** features are implemented:
 
--   [ ] List anything else that you added to improve the site's functionality!
+-   [x] Items can be removed from the ban list
 
 ## Video Walkthrough
 
@@ -44,6 +44,8 @@ GIF created with [Kap](https://getkap.co/)
 ## Notes
 
 Describe any challenges encountered while building the app.
+
+I originally planned on using the Dog API provided in the resources, but there was less information returned in the response than I expected so I switched over to the Cat API. At first, I encountered some problems with calling the API and getting a response, but it ended up being a problem with the way I defined my environment variables. Later on, I had some issues with figuring out how to structure everything such as the ban list and how to separate everything into components so I had to make many changes throughout the entire process.
 
 ## License
 
