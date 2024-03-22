@@ -58,12 +58,14 @@ function App() {
 
 
   const addToBanList = (bannedVal) => {
+    console.log(`${bannedVal} added to ban list`)
     setBanList([...banList, bannedVal])
   }
 
   const removeFromBanList = (bannedVal) => {
     const index = banList.indexOf(bannedVal)
     if(index > -1) {
+      console.log(`${bannedVal} removed from ban list`)
       setBanList(banList.filter((_, i) => i !== index))
     }
   }
